@@ -52,6 +52,9 @@ EXAMPLE: 3 + 5 x 6 - 2 / 4 =
 Immediate Execution Logic: 11.5
 Formula/Expression Logic: 32.5
 
+[Wireframes](wireframes/wireframe-js-calculator.png) are supplied.
+
+
 
 
 
