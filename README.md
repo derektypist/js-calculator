@@ -5,7 +5,7 @@ https://codepen.io/freeCodeCamp/full/wgGVVX
 
 ## UX
 
-The 
+The calculator has plus, minus, 
 
 ### User Stories
 
@@ -62,7 +62,7 @@ Written by me.
 
 ### Acknowledgements
 
-[Kristin Anthony](https://www.knanthony.com/blog/free-code-camp-calculator) - including the code pen.
+[Kristin Anthony](https://www.knanthony.com/blog/free-code-camp-calculator) - including the [code pen](https://codepen.io/anthkris/pen/vLdgev).
 Accessed on 18 February 2020.
 
 
