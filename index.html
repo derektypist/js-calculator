@@ -36,13 +36,60 @@
         }
         
         /* Display */
+        #display {
+            height: 75px;
+            background: seagreen;
+            color: white;
+        }
+        
         
     </style>
 </head>
 <body>
     <!-- Set Up Calculator -->
     <section id="calculator">
+        <!-- Set Up Title, History and Display -->
         <article id="title"><p>JavaScript Calculator</p></article>
+        <article id="history"></article>
+        <article id="display"></article>
+        <!-- Set Up First Row -->
+        <article class="row">
+            <button id="clear">C</button>
+            <button id="posNeg">&plusmn;</button>
+            <button id="percent">%</button>
+            <button class="op" id="divide">&divide;</button>
+        </article>
+        
+        <!-- Set Up Second Row -->
+        <article class="row">
+            <button id="one">1</button>
+            <button id="two">2</button>
+            <button id="three">3</button>
+            <button class="op" id="add">+</button>
+        </article>
+        
+        <!-- Set Up Third Row -->
+        <article class="row">
+            <button id="four">4</button>
+            <button id="five">5</button>
+            <button id="six">6</button>
+            <button class="op" id="subtract">-</button>
+        </article>
+        
+        <!-- Set Up Fourth Row -->
+        <article class="row">
+            <button id="seven">7</button>
+            <button id="eight">8</button>
+            <button id="nine">9</button>
+            <button class="op" id="multiply">&times;</button>
+        </article>
+        
+        <!-- Set Up Fifth Row -->
+        <article class="row my-three">
+            <button id="zero">0</button>
+            <button id="decimal">.</button>
+            <button class="op" id="equal">=</button>
+        </article>
     </section>
 </body>
 </html>
