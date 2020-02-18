@@ -54,7 +54,16 @@ Formula/Expression Logic: 32.5
 
 [Wireframes](wireframes/wireframe-js-calculator.png) are supplied.
 
+## Credits
 
+### Content
+
+Written by me.
+
+### Acknowledgements
+
+[Kristin Anthony](https://www.knanthony.com/blog/free-code-camp-calculator) - including the code pen.
+Accessed on 18 February 2020.
 
 
 
