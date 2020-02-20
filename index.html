@@ -37,25 +37,24 @@
         #title p {
             margin: 0 auto;
             padding: 20px;
-            
+
         }
 
         /* Display and History */
-
 
         #display {
             height: 75px;
             background: seagreen;
             color: white;
         }
-        
+
         #history {
             height: 40px;
             background: seagreen;
             color: white;
             border: none;
         }
-        
+
         #display p,
         #history p {
             padding-right: 20px;
@@ -86,66 +85,72 @@
             height: 2em;
             float: left;
         }
-        
+
         button:hover {
             background: navy;
             color: white;
         }
-        
+
         #equal:hover {
             background: turquoise;
         }
-        
+
         .row button {
             width: 25%;
         }
-        
+
         .my-three button {
             width: 33.333%;
-        } 
-        
-        
+        }
     </style>
-    
+
     <!-- Load Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://www.jsdelivr.com/package/npm/mathjs"></script>
     <script>
         // Define Global Variables
-        var $display = $(".display");
-var $history = $("#history");
-var $clear = $("#clear");
-var text = "0";
-var numText = "0";
-var operation = $(".op");
-var numArray = [];
-BigNumber.config({
-  DECIMAL_PLACES: 10,
-  ROUNDING_MODE: BigNumber.ROUND_HALF_CEIL,
-  EXPONENTIAL_AT: [-10, 10],
-  ERRORS: false,
-});
+        var $display = $("#display");
+        var $history = $("#history");
+        var $clear = $("#clear");
+        var text = "0";
+        var numText = "0";
+        var operation = $(".op");
+        var numArray = [];
+        BigNumber.config({
+            DECIMAL_PLACES: 10,
+            ROUNDING_MODE: BigNumber.ROUND_HALF_CEIL,
+            EXPONENTIAL_AT: [-10, 10],
+            ERRORS: false,
+        });
 
-/* FONT SCALING */
-//Scales font size on main display in case of long numbers
+        /* FONT SCALING */
+        //Scales font size on main display in case of long numbers
 
-function fontSizing() {
-  var fontSize;
-  if ($display.children().text().length > 18) {
-    fontSize = $display.width() * 0.05; // 5% of display div width
-  } else if ($display.children().text().length > 13) {
-    fontSize = $display.width() * 0.07; // 7% of display div width
-  } else {
-    fontSize = $display.width() * 0.10; // 10% of display div width
-  }
-  $display.css('font-size', fontSize);
-}
-
-
-
-
-
-
+        function fontSizing() {
+            var fontSize;
+            if ($display.children().text().length > 18) {
+                fontSize = $display.width() * 0.05; // 5% of display div width
+            }
+            else if ($display.children().text().length > 13) {
+                fontSize = $display.width() * 0.07; // 7% of display div width
+            }
+            else {
+                fontSize = $display.width() * 0.10; // 10% of display div width
+            }
+            $display.css('font-size', fontSize);
+            
+        function buttonClick(id) {
+  $("#" + id).click(function() {
+    text += $("#" + id).html();
+    numText += $("#" + id).html();
+    displayText();
+    displayHistory();
+  });
+}    
+            
+            
+            
+        }
     </script>
 </head>
 
