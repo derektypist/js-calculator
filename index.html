@@ -14,14 +14,14 @@
 
         body {
             font-family: "Roboto", Arial, Verdana, sans-serif;
-            margin-top: 2em;
+            margin-top: 3em;
         }
 
         /* Calculator */
 
         #calculator {
             width: 50%;
-            margin: auto;
+            margin: 0 auto;
             overflow: auto;
         }
 
@@ -35,23 +35,33 @@
         }
 
         #title p {
-            margin: auto;
+            margin: 0 auto;
             padding: 20px;
+            
         }
 
         /* Display and History */
+
 
         #display {
             height: 75px;
             background: seagreen;
             color: white;
         }
-
+        
         #history {
             height: 40px;
             background: seagreen;
             color: white;
-            border-color: lightgreen;
+            border: none;
+        }
+        
+        #display p,
+        #history p {
+            padding-right: 20px;
+            padding-top: 15px;
+            margin-bottom: 0;
+            margin-top: 0;
         }
 
         .row,
@@ -91,7 +101,7 @@
         }
         
         .my-three button {
-            width: 33.333;
+            width: 33.33%;
         }
     </style>
     
