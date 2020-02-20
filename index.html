@@ -212,9 +212,66 @@
             numText += " " + $("#percent").html() + " ";
             clear();
         });
-        
-        
-    </script>
+
+        // Set Up Operations Functions
+
+        function add() {
+            if ($display.children().html() !== undefined) {
+                var bigNum = new BigNumber($display.children().html());
+                numArray.push(bigNum.toNumber());
+            }
+            else {
+                numArray.push(0);
+            }
+            console.log(numArray);
+            //if numArray only has one number, don't perform any operations
+            if (numArray.length === 1) {
+                text = numArray[0];
+                console.log(numArray);
+                displayText();
+            }
+            else {
+                numArray = [numArray.reduce(function(prev, curr) {
+                    prev = new BigNumber(prev);
+                    curr = new BigNumber(curr);
+                    return math.add(math.bignumber(prev), math.bignumber(curr));
+                })];
+                text = numArray[0];
+                console.log(numArray);
+                displayText();
+            }
+        }
+
+        function subtract() {
+            if ($display.children().html() !== undefined) {
+                var bigNum = new BigNumber($display.children().html());
+                numArray.push(bigNum.toNumber());
+            }
+            else {
+                numArray.push(0);
+            }
+            console.log(numArray);
+            if (numArray.length === 1) {
+                text = numArray[0];
+                console.log(numArray);
+                displayText();
+            }
+            else {
+                numArray = [numArray.reduce(function(prev, curr) {
+                    prev = new BigNumber(prev);
+                    curr = new BigNumber(curr);
+                    return math.subtract(math.bignumber(prev), math.bignumber(curr));
+                })];
+                text = numArray[0];
+                console.log(numArray);
+                displayText();
+            }
+        }
+
+        function multiply() {
+            
+        }
+        </script> 
 </head>
 
 <body>
