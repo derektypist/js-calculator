@@ -54,6 +54,10 @@ Formula/Expression Logic: 32.5
 
 [Wireframes](wireframes/wireframe-js-calculator.png) are supplied.
 
+
+## Technologies
+
+This project uses HTML5, CSS3, Bootstrap 4.4.1, jQuery 3.4.1 and Bignumbers (available at https://www.jsdelivr.com/package/npm/mathjs).
 ## Credits
 
 ### Content
