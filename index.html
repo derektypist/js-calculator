@@ -138,35 +138,82 @@
                 fontSize = $display.width() * 0.10; // 10% of display div width
             }
             $display.css('font-size', fontSize);
-
-
-            // Set Up Number Buttons
-            
-            function buttonClick(id) {
-                $("#" + id).click(function() {
-                    text += $("#" + id).html();
-                    numText += $("#" + id).html();
-                    displayText();
-                    displayHistory();
-                });
-            }
-            
-           buttonClick("one");
-           buttonClick("two");
-           buttonClick("three");
-           buttonClick("four");
-           buttonClick("five");
-           buttonClick("six");
-           buttonClick("seven");
-           buttonClick("eight");
-           buttonClick("nine");
-           buttonClick("zero");
-           buttonClick("decimal");
-           
-
-
-
         }
+
+        // Set Up Number Buttons
+
+        function buttonClick(id) {
+            $("#" + id).click(function() {
+                text += $("#" + id).html();
+                numText += $("#" + id).html();
+                displayText();
+                displayHistory();
+            });
+        }
+
+        buttonClick("one");
+        buttonClick("two");
+        buttonClick("three");
+        buttonClick("four");
+        buttonClick("five");
+        buttonClick("six");
+        buttonClick("seven");
+        buttonClick("eight");
+        buttonClick("nine");
+        buttonClick("zero");
+        buttonClick("decimal");
+
+        // Set Up Operations Buttons
+
+        $("#posNeg").click(function() {
+            var bigNum = new BigNumber($display.children().html());
+            text = bigNum.toNumber() * -1;
+            displayText();
+            displayHistory();
+            clear();
+        });
+
+        $("#add").click(function() {
+            equal(); //call equal to perform current operation before switching to new operation
+            operation = "add";
+            add();
+            numText += " " + $("#add").html() + " ";
+            clear();
+        });
+
+        $("#subtract").click(function() {
+            equal();
+            operation = "subtract";
+            subtract();
+            numText += " " + $("#subtract").html() + " ";
+            clear();
+        });
+
+        $("#divide").click(function() {
+            equal();
+            operation = "divide";
+            divide();
+            numText += " " + $("#divide").html() + " ";
+            clear();
+        });
+
+        $("#multiply").click(function() {
+            equal();
+            operation = "multiply";
+            multiply();
+            numText += " " + $("#multiply").html() + " ";
+            clear();
+        });
+
+        $("#percent").click(function() {
+            operation = "percent";
+            percent();
+            equal();
+            numText += " " + $("#percent").html() + " ";
+            clear();
+        });
+        
+        
     </script>
 </head>
 
