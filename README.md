@@ -5,7 +5,7 @@ https://codepen.io/freeCodeCamp/full/wgGVVX
 
 ## UX
 
-The calculator has plus, minus, 
+The calculator has plus, minus, multiply, divide and percent buttons.  It also has a change of sign from plus to minus and vice versa.
 
 ### User Stories
 
