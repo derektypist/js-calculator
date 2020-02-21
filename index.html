@@ -151,7 +151,10 @@
                 displayText();
                 displayHistory();
             });
-        }
+            if (id === "decimal" && numText.indexOf(".") !== - 1 && operation=="") {
+                $("#decimal").prop("disabled", true);
+            }
+        
 
         buttonClick("one");
         buttonClick("two");
@@ -271,6 +274,10 @@
         }
 
         function multiply() {
+            
+        }
+        
+        function divide() {
             
         }
         
