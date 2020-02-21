@@ -151,10 +151,11 @@
                 displayText();
                 displayHistory();
             });
-            if (id === "decimal" && numText.indexOf(".") !== - 1 && operation=="") {
-                $("#decimal").prop("disabled", true);
-            }
+            if (id === "decimal" && numText.indexOf(".") !== - 1 && operation=="") 
+                    $("#decimal").prop("disabled", true);
+        }
         
+                   
 
         buttonClick("one");
         buttonClick("two");
@@ -273,13 +274,72 @@
             }
         }
 
-        function multiply() {
-            
-        }
+       function multiply() {
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
+    numArray.push(bigNum.toNumber());
+  } else {
+    numArray.push(0);
+  }
+  console.log(numArray);
+  if (numArray.length === 1) {
+    text = numArray[0];
+    console.log(numArray);
+    displayText();
+  } else {
+    numArray = [numArray.reduce(function(prev, curr) {
+      prev = new BigNumber(prev);
+      curr = new BigNumber(curr);
+      return math.multiply(math.bignumber(prev), math.bignumber(curr));
+      
+    })];
+    text = numArray[0];
+    console.log(numArray);
+    displayText();
+  }
+}
         
         function divide() {
-            
-        }
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
+    numArray.push(bigNum.toNumber());
+  } else {
+    numArray.push(0);
+  }
+  console.log(numArray);
+  if (numArray.length === 1) {
+    text = numArray[0];
+    console.log(numArray);
+    displayText();
+  } else {
+    numArray = [numArray.reduce(function(prev, curr) {
+      prev = new BigNumber(prev);
+      curr = new BigNumber(curr);
+      return math.divide(math.bignumber(prev), math.bignumber(curr));
+    })];
+    text = numArray[0];
+    console.log(numArray);
+    displayText();
+  }
+}
+
+        function percent() {
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
+    numArray.push(bigNum.toNumber());
+  } else {
+    numArray.push(0);
+  }
+  console.log(numArray);
+  numArray = [numArray.reduce(function(prev, curr) {
+    prev = new BigNumber(prev);
+    curr = new BigNumber(100);
+    return math.divide(math.bignumber(prev), math.bignumber(curr));
+  })];
+  text = numArray[0];
+  console.log(numArray);
+  displayText();
+}
         
         });         // End Document Ready
         </script> 
