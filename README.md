@@ -54,10 +54,16 @@ Formula/Expression Logic: 32.5
 
 [Wireframes](wireframes/wireframe-js-calculator.png) are supplied.
 
+## Features
+
+This calculator has 19 buttons.  10 number keys, 6 operations (add, subtract, multiply, divide, percent
+and change sign - positive to negative and negative to positive), equals key, decimal key and clear key.
+
 
 ## Technologies
 
 This project uses HTML5, CSS3, Bootstrap 4.4.1, jQuery 3.4.1 and Bignumbers (available at https://www.jsdelivr.com/package/npm/mathjs).
+
 ## Credits
 
 ### Content
