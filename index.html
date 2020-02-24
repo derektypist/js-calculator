@@ -382,7 +382,23 @@ $("#clear").click(function() {
 function clear() {
     text = "";
 }
-        
+
+
+// Display Functions
+function displayText() {
+    var displayTags = "<p>";
+    displayTags += text;
+    displayTags += "</p>";
+    fontSizing();
+    $display.html(displayTags);
+}
+
+function displayHistory() {
+    var historyText = "<p>";
+    historyText += numText;
+    historyText += "</p>";
+    $history.html(historyText);
+}
         
         });         // End Document Ready
         </script> 
