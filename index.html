@@ -29,7 +29,7 @@
 
         #title {
             background: black;
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: white;
             text-align: center;
         }
@@ -340,6 +340,27 @@
   console.log(numArray);
   displayText();
 }
+        
+        //Equal calls the last operation performed
+function equal() {
+  console.log(operation);
+  if (operation === "plus") {
+    add();
+  } else if (operation === "minus") {
+    subtract();
+  } else if (operation === "multiply") {
+    multiply();
+  } else if (operation === "divide") {
+    divide();
+  } else if (operation === "percent") {
+    percent();
+  }
+  operation = "";
+  numArray = [];
+  $("#decimal").prop("disabled", false);
+}
+        
+        
         
         });         // End Document Ready
         </script> 
