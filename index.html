@@ -359,7 +359,29 @@ function equal() {
   numArray = [];
   $("#decimal").prop("disabled", false);
 }
-        
+
+// Set Up Equal and Clear Buttons
+$("#equal").click(function() {
+    equal();
+    $history.empty();
+    numText = text;
+    
+});  
+
+// Clear Button will reset everything
+$("#clear").click(function() {
+    $display.empty();
+    $history.empty();
+    numArray = [];
+    text = "0";
+    numText = "0";
+    operation = "";
+    $("#decimal").prop("disabled", false);
+});
+
+function clear() {
+    text = "";
+}
         
         
         });         // End Document Ready
