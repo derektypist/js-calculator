@@ -111,9 +111,9 @@
     
         $(document).ready(function() {
         // Define Global Variables
-        var display = $("#display");
-        var history = $("#history");
-        var myclear = $("#clear");
+        var $display = $("#display");
+        var $history = $("#history");
+        var $clear = $("#clear");
         var text = "";
         var numText = "";
         var operation = "";
@@ -144,34 +144,46 @@
 
         // Set Up Number Buttons
 
-        function buttonClick(id) {
-            $("#" + id).click(function() {
-                text += $("#" + id).html();
-                numText += $("#" + id).html();
-                displayText();
-                displayHistory();
-            });
-            if (id === "decimal" && numText.indexOf(".") !== - 1 && operation=="") 
-                    $("#decimal").prop("disabled", true);
-        }
+        $(".digit:not(#zero)").click(function() {
+            var displayStr = $display.text();
+            if (operation == "equal") {
+                $history.html($(this).text());
+                operation = "number";
+            }
         
-                   
+        $("#zero").click(function() {
+            if (operation == "equal") {
+                initializeCalc();
+                $display.append('0');
+                operation = "number";
+            }
+        });  
+        
+            
+            
+            
+            
+            
+        });
+        
+       // Set Up Decimal Point
+       
+       $("#decimal").click(function() {
+           var displayStr = $display.text();
+           if (operation == "equal") {
+               $history.html($(this.text()));
+               operation = "decimal";
+           }
+           
+       });
 
         
-        buttonClick("three");
-        buttonClick("four");
-        buttonClick("five");
-        buttonClick("six");
-        buttonClick("seven");
-        buttonClick("eight");
-        buttonClick("nine");
-        buttonClick("zero");
-        buttonClick("decimal");
+        
 
         // Set Up Operations Buttons
 
         $("#posNeg").click(function() {
-            var bigNum = new BigNumber(display.children().html());
+            var bigNum = new BigNumber($display.children().html());
             text = bigNum.toNumber() * -1;
             displayText();
             displayHistory();
@@ -221,8 +233,8 @@
         // Set Up Operations Functions
 
         function add() {
-            if (display.children().html() !== undefined) {
-                var bigNum = new BigNumber(display.children().html());
+            if ($display.children().html() !== undefined) {
+                var bigNum = new BigNumber($display.children().html());
                 numArray.push(bigNum.toNumber());
             }
             else {
@@ -248,8 +260,8 @@
         }
 
         function subtract() {
-            if (display.children().html() !== undefined) {
-                var bigNum = new BigNumber(display.children().html());
+            if ($display.children().html() !== undefined) {
+                var bigNum = new BigNumber($display.children().html());
                 numArray.push(bigNum.toNumber());
             }
             else {
@@ -274,8 +286,8 @@
         }
 
        function multiply() {
-  if (display.children().html() !== undefined) {
-    var bigNum = new BigNumber(display.children().html());
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
     numArray.push(bigNum.toNumber());
   } else {
     numArray.push(0);
@@ -299,8 +311,8 @@
 }
         
         function divide() {
-  if (display.children().html() !== undefined) {
-    var bigNum = new BigNumber(display.children().html());
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
     numArray.push(bigNum.toNumber());
   } else {
     numArray.push(0);
@@ -323,8 +335,8 @@
 }
 
         function percent() {
-  if (display.children().html() !== undefined) {
-    var bigNum = new BigNumber(display.children().html());
+  if ($display.children().html() !== undefined) {
+    var bigNum = new BigNumber($display.children().html());
     numArray.push(bigNum.toNumber());
   } else {
     numArray.push(0);
@@ -339,6 +351,14 @@
   console.log(numArray);
   displayText();
 }
+
+// Initialize Calculator
+function initializeCalc() {
+$display.html(' 0');
+$history.html('');
+operation = undefined;
+}
+
         
         //Equal calls the last operation performed
 function equal() {
@@ -362,15 +382,16 @@ function equal() {
 // Set Up Equal and Clear Buttons
 $("#equal").click(function() {
     equal();
-    history.empty();
+    $history.empty();
+    operation = "equal";
     numText = text;
     
 });  
 
 // Clear Button will reset everything
 $("#clear").click(function() {
-    display.empty();
-    history.empty();
+    $display.empty();
+    $history.empty();
     numArray = [];
     text = "0";
     numText = "0";
@@ -389,14 +410,14 @@ function displayText() {
     displayTags += text;
     displayTags += "</p>";
     fontSizing();
-    display.html(displayTags);
+    $display.html(displayTags);
 }
 
 function displayHistory() {
     var historyText = "<p>";
     historyText += numText;
     historyText += "</p>";
-    history.html(historyText);
+    $history.html(historyText);
 }
         
         });         // End Document Ready
@@ -422,8 +443,8 @@ function displayHistory() {
 
         <!-- Set Up Second Row -->
         <article class="row">
-            <button id="one" class="digit" onclick="buttonClick('one')">1</button>
-            <button id="two" class="digit" onclick="buttonClick('two')">2</button>
+            <button id="one" class="digit" >1</button>
+            <button id="two" class="digit">2</button>
             <button id="three" class="digit">3</button>
             <button class="op" id="add">+</button>
         </article>
