@@ -75,6 +75,8 @@ Written by me.
 [Kristin Anthony](https://www.knanthony.com/blog/free-code-camp-calculator) - including the [code pen](https://codepen.io/anthkris/pen/vLdgev).
 Accessed on 18 February 2020.
 
+[Peter Weinburg](https://github.com/no-stack-dub-sack/FCC-Calculator) - for the FCC Calculator.  Accessed on 26 February 2020.
+
 The [MathJS Library](https://mathjs.org/index.html), accessed on 20 Feburary 2020.
 
 
