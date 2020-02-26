@@ -157,8 +157,7 @@
         
                    
 
-        buttonClick("one");
-        buttonClick("two");
+        
         buttonClick("three");
         buttonClick("four");
         buttonClick("five");
@@ -418,13 +417,13 @@ function displayHistory() {
             <button id="clear">C</button>
             <button id="posNeg">&plusmn;</button>
             <button id="percent">%</button>
-            <button class="op" id="divide">&divide;</button>
+            <button id="divide" class="op">&divide;</button>
         </article>
 
         <!-- Set Up Second Row -->
         <article class="row">
-            <button id="one">1</button>
-            <button id="two">2</button>
+            <button id="one" onclick="buttonClick('one')">1</button>
+            <button id="two" onclick="buttonClick('two')">2</button>
             <button id="three">3</button>
             <button class="op" id="add">+</button>
         </article>
