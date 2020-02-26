@@ -111,6 +111,7 @@
     
         $(document).ready(function() {
         // Define Global Variables
+        var answer = 0;
         var $display = $("#display");
         var $history = $("#history");
         var $clear = $("#clear");
@@ -360,31 +361,21 @@ operation = undefined;
 }
 
         
-        //Equal calls the last operation performed
-function equal() {
-  console.log(operation);
-  if (operation === "plus") {
-    add();
-  } else if (operation === "minus") {
-    subtract();
-  } else if (operation === "multiply") {
-    multiply();
-  } else if (operation === "divide") {
-    divide();
-  } else if (operation === "percent") {
-    percent();
-  }
-  operation = "";
-  numArray = [];
-  $("#decimal").prop("disabled", false);
-}
+       
 
 // Set Up Equal and Clear Buttons
 $("#equal").click(function() {
-    equal();
-    $history.empty();
-    operation = "equal";
-    numText = text;
+    if($display.html().lastIndexOf('.') == $display.html().length - 1 || operation === undefined) {
+        // Prevent Evaluation
+    } else {
+        var expression = $display.html().replace(/-/g, "-").replace(/./g, "*");
+        answer = Math.round(1000000000000 * eval(expression))/1000000000000;
+        $history.empty();
+        operation = "equal";
+        numText = text;
+    }
+    
+    
     
 });  
 
