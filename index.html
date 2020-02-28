@@ -119,6 +119,8 @@
         var numText = "";
         var operation = "";
         var numArray = [];
+        var iterations = 0;
+        const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orange", "olive", "brown", "darkpink"];
         BigNumber.config({
             DECIMAL_PLACES: 10,
             ROUNDING_MODE: BigNumber.ROUND_HALF_CEIL,
@@ -131,16 +133,16 @@
 
         function fontSizing() {
             var fontSize;
-            if (display.children().text().length > 18) {
-                fontSize = display.width() * 0.05; // 5% of display div width
+            if ($display.children().text().length > 18) {
+                fontSize = $display.width() * 0.05; // 5% of display div width
             }
-            else if (display.children().text().length > 13) {
-                fontSize = display.width() * 0.07; // 7% of display div width
+            else if ($display.children().text().length > 13) {
+                fontSize = $display.width() * 0.07; // 7% of display div width
             }
             else {
-                fontSize = display.width() * 0.10; // 10% of display div width
+                fontSize = $display.width() * 0.10; // 10% of display div width
             }
-            display.css('font-size', fontSize);
+            $display.css('font-size', fontSize);
         }
 
         // Set Up Number Buttons
@@ -157,6 +159,8 @@
             /(\s0)|x|\+|—/.test($output.text()) ? $display.html('') : $display.html();
             text += $(".digit:not(#zero)").html();
                 numText += $(".digit:not(#zero)").html();
+                displayText();
+                displayHistory();
                 operation = "number";
             
             
@@ -171,6 +175,8 @@
     } else {
                 text += $("#zero").append("0");
                 numText += $("#zero").append("0");
+                displayText();
+                displayHistory();
                 operation = "number";
             }
                 
@@ -393,7 +399,7 @@ operation = undefined;
         
        
 
-// Set Up Equal and Clear Buttons
+// Set Up Equal, Clear and Settings Buttons
 $("#equal").click(function() {
     if($history.html().lastIndexOf('.') == $history.html().length - 1 || operation === undefined) {
         // Prevent Evaluation
@@ -417,6 +423,12 @@ function clear() {
     text = "";
 }
 
+$("#settings").click(changeDisplayBackgroundColor());
+
+function changeDisplayBackgroundColor() {
+    iterations++;
+    $("#settings").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
+}
 
 // Display Functions
 function displayText() {
