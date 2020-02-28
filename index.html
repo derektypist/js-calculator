@@ -204,7 +204,16 @@
            
        });
 
-        
+       // Set Up Lock Function
+       
+      function lockNumbersAndDecimals() {
+          if (operation != "equal") {
+              return $display.text().length > 18 ||
+              $history.text().length > 64 ||
+              $history.text() !== "";
+              
+          }
+      }
         
 
         // Set Up Operations Buttons
