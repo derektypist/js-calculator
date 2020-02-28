@@ -111,7 +111,7 @@
     
         $(document).ready(function() {
         // Define Global Variables
-        var answer = 0;
+        
         var $display = $("#display");
         var $history = $("#history");
         var $clear = $("#clear");
@@ -353,6 +353,26 @@
   displayText();
 }
 
+//Equal calls the last operation performed
+function equal() {
+  console.log(operation);
+  if (operation === "plus") {
+    add();
+  } else if (operation === "minus") {
+    subtract();
+  } else if (operation === "multiply") {
+    multiply();
+  } else if (operation === "divide") {
+    divide();
+  } else if (operation === "percent") {
+    percent();
+  }
+  operation = "";
+  numArray = [];
+}
+
+
+
 // Initialize Calculator
 function initializeCalc() {
 $display.html(' 0');
@@ -368,8 +388,7 @@ $("#equal").click(function() {
     if($display.html().lastIndexOf('.') == $display.html().length - 1 || operation === undefined) {
         // Prevent Evaluation
     } else {
-        var expression = $display.html().replace(/-/g, "-").replace(/./g, "*");
-        answer = Math.round(1000000000000 * eval(expression))/1000000000000;
+        equal();
         $history.empty();
         operation = "equal";
         numText = text;
@@ -378,6 +397,8 @@ $("#equal").click(function() {
     
     
 });  
+
+
 
 // Clear Button will reset everything
 $("#clear").click(function() {
