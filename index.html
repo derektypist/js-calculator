@@ -180,7 +180,7 @@
        // Set Up Decimal Point
        
        $("#decimal").click(function() {
-           var displayStr = $display.text();
+           
            if (operation == "equal") {
                $history.html($(this.text()));
                operation = "decimal";
@@ -483,10 +483,11 @@ function displayHistory() {
         </article>
 
         <!-- Set Up Fifth Row -->
-        <article class="row my-three">
+        <article class="row">
             <button id="zero" class="digit">0</button>
             <button id="decimal">.</button>
             <button class="op" id="equal">=</button>
+            <button id="settings" title="Change display background color">S</button>
         </article>
     </section>
 </body>
