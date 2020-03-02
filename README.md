@@ -6,6 +6,11 @@ https://codepen.io/freeCodeCamp/full/wgGVVX
 ## UX
 
 The calculator has plus, minus, multiply, divide and percent buttons.  It also has a change of sign from plus to minus and vice versa.
+There is a setting button (S) to change the background color of the display.
+
+There are settings for background colors in the display.
+
+Display Background Colors - seagreen, blue, purple, orangered, olive, brown and deeppink.
 
 ### User Stories
 
