@@ -446,7 +446,8 @@ $("#settings").click(changeDisplayBackgroundColor());
 
 function changeDisplayBackgroundColor() {
     iterations++;
-    $("#settings").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
+    $("#history").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
+    $("#display").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
 }
 
 // Display Functions
