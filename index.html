@@ -198,9 +198,14 @@
        
        $("#decimal").click(function() {
            
-           if (operation == "equal") {
-               $history.html($(this.text()));
-               operation = "decimal";
+           if (operation == "equal" || lockNumbersAndDecimals()) {
+               // Apply Lock
+           } else {
+            if (operation == "add" && $display.text() == "-" || operation == "subtract" && $display.text() == "-" || operation == "multiply" && $display.text() == "-"
+            || operation == "divide" && $display.text() == "-" || operation == "percent" && $display.text() == "-") {
+                text += $("#decimal").append("0.");
+                numText += $("#decimal").append("0.");
+            }
            }
            
        });
