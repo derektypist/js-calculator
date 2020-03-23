@@ -138,7 +138,8 @@
             EXPONENTIAL_AT: [-10, 10],
             ERRORS: false,
         });
-
+        initializeCalc();
+        
         /* FONT SCALING */
         //Scales font size on main display in case of long numbers
 
@@ -442,13 +443,13 @@ $("#equal").click(function() {
 
 
 // Clear Button will reset everything
-$("#clear").click(initializeCalc());
+$("#clear").click(initializeCalc);
 
 function clear() {
     text = "";
 }
 
-$("#settings").click(changeDisplayBackgroundColor());
+$("#settings").click(changeDisplayBackgroundColor);
 
 function changeDisplayBackgroundColor() {
     iterations++;
