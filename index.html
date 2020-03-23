@@ -22,7 +22,7 @@
         #calculator {
             width: 50%;
             margin: auto;
-           
+
         }
 
         /* Title */
@@ -37,7 +37,7 @@
         #title p {
             margin: auto;
             padding: 20px;
-           
+
 
         }
 
@@ -75,7 +75,7 @@
         #clear {
             color: turquoise;
         }
-        
+
         #settings {
             color: orange;
         }
@@ -99,11 +99,11 @@
         #equal:hover {
             background: turquoise;
         }
-        
+
         #clear:hover {
             background: green;
         }
-        
+
         #settings:hover {
             background: purple;
         }
@@ -111,325 +111,347 @@
         .row button {
             width: 25%;
         }
-
-        
     </style>
 
     <!-- Load Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://www.jsdelivr.com/package/npm/mathjs"></script>
     <script>
-    
         $(document).ready(function() {
-        // Define Global Variables
-        
-        var $display = $("#display");
-        var $history = $("#history");
-        var $clear = $("#clear");
-        var text = "";
-        var numText = "";
-        var operation = "";
-        var numArray = [];
-        var iterations = 0;
-        const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
-        math.config({
-            number: 'BigNumber',
-            precision: 64
-        });
-        initializeCalc();
-        
-        /* FONT SCALING */
-        //Scales font size on main display in case of long numbers
+            // Define Global Variables
 
-        function fontSizing() {
-            var fontSize;
-            if ($display.children().text().length > 18) {
-                fontSize = $display.width() * 0.05; // 5% of display div width
+            
+            const config = {
+                epsilon: 1e-12,
+                matrix: 'Matrix',
+                number: 'BigNumber',
+                precision: 64,
+                predictable: false,
+                randomSeed: null
+            };
+            
+            
+
+
+
+
+            var $display = $("#display");
+            var $history = $("#history");
+            var $clear = $("#clear");
+            var text = "";
+            var numText = "";
+            var operation = "";
+            var numArray = [];
+            var iterations = 0;
+            const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
+
+
+
+
+            initializeCalc();
+
+            /* FONT SCALING */
+            //Scales font size on main display in case of long numbers
+
+            function fontSizing() {
+                var fontSize;
+                if ($display.children().text().length > 18) {
+                    fontSize = $display.width() * 0.05; // 5% of display div width
+                }
+                else if ($display.children().text().length > 13) {
+                    fontSize = $display.width() * 0.07; // 7% of display div width
+                }
+                else {
+                    fontSize = $display.width() * 0.10; // 10% of display div width
+                }
+                $display.css('font-size', fontSize);
             }
-            else if ($display.children().text().length > 13) {
-                fontSize = $display.width() * 0.07; // 7% of display div width
+
+            // Set Up Number Buttons
+
+            function buttonClick(id) {
+                $("#" + id).click(function() {
+                    text += $("#" + id).html();
+                    numText += $("#" + id).html();
+                    displayText();
+                    displayHistory();
+                });
             }
-            else {
-                fontSize = $display.width() * 0.10; // 10% of display div width
-            }
-            $display.css('font-size', fontSize);
-        }
 
-        // Set Up Number Buttons
+            buttonClick("one");
+            buttonClick("two");
+            buttonClick("three");
+            buttonClick("four");
+            buttonClick("five");
+            buttonClick("six");
+            buttonClick("seven");
+            buttonClick("eight");
+            buttonClick("nine");
+            buttonClick("zero");
+            buttonClick("decimal");
 
-       function buttonClick(id) {
-  $("#" + id).click(function() {
-    text += $("#" + id).html();
-    numText += $("#" + id).html();
-    displayText();
-    displayHistory();
-  });
-}
 
-buttonClick("one");
-buttonClick("two");
-buttonClick("three");
-buttonClick("four");
-buttonClick("five");
-buttonClick("six");
-buttonClick("seven");
-buttonClick("eight");
-buttonClick("nine");
-buttonClick("zero");
-buttonClick("decimal");
-        
+            // Set Up Operations Buttons
 
-        // Set Up Operations Buttons
-
-        $("#posNeg").click(function() {
-            var bigNum = new BigNumber($display.children().html());
-            text = bigNum.toNumber() * -1;
-            displayText();
-            displayHistory();
-            clear();
-        });
-
-        $("#add").click(function() {
-            equal(); //call equal to perform current operation before switching to new operation
-            operation = "add";
-            add();
-            numText += " " + $("#add").html() + " ";
-            clear();
-        });
-
-        $("#subtract").click(function() {
-            equal();
-            operation = "subtract";
-            subtract();
-            numText += " " + $("#subtract").html() + " ";
-            clear();
-        });
-
-        $("#divide").click(function() {
-            equal();
-            operation = "divide";
-            divide();
-            numText += " " + $("#divide").html() + " ";
-            clear();
-        });
-
-        $("#multiply").click(function() {
-            equal();
-            operation = "multiply";
-            multiply();
-            numText += " " + $("#multiply").html() + " ";
-            clear();
-        });
-
-        $("#percent").click(function() {
-            operation = "percent";
-            percent();
-            equal();
-            numText += " " + $("#percent").html() + " ";
-            clear();
-        });
-
-        // Set Up Operations Functions
-
-        function add() {
-            if ($display.children().html() !== undefined) {
+            $("#posNeg").click(function() {
                 var bigNum = new BigNumber($display.children().html());
-                numArray.push(bigNum.toNumber());
-            }
-            else {
-                numArray.push(0);
-            }
-            console.log(numArray);
-            //if numArray only has one number, don't perform any operations
-            if (numArray.length === 1) {
-                text = numArray[0];
-                console.log(numArray);
+                text = bigNum.toNumber() * -1;
                 displayText();
+                displayHistory();
+                clear();
+            });
+
+            $("#add").click(function() {
+                equal(); //call equal to perform current operation before switching to new operation
+                operation = "add";
+                add();
+                numText += " " + $("#add").html() + " ";
+                clear();
+            });
+
+            $("#subtract").click(function() {
+                equal();
+                operation = "subtract";
+                subtract();
+                numText += " " + $("#subtract").html() + " ";
+                clear();
+            });
+
+            $("#divide").click(function() {
+                equal();
+                operation = "divide";
+                divide();
+                numText += " " + $("#divide").html() + " ";
+                clear();
+            });
+
+            $("#multiply").click(function() {
+                equal();
+                operation = "multiply";
+                multiply();
+                numText += " " + $("#multiply").html() + " ";
+                clear();
+            });
+
+            $("#percent").click(function() {
+                operation = "percent";
+                percent();
+                equal();
+                numText += " " + $("#percent").html() + " ";
+                clear();
+            });
+
+            // Set Up Operations Functions
+
+            function add() {
+                if ($display.children().html() !== undefined) {
+                    var bigNum = new BigNumber($display.children().html());
+                    numArray.push(bigNum.toNumber());
+                }
+                else {
+                    numArray.push(0);
+                }
+                console.log(numArray);
+                //if numArray only has one number, don't perform any operations
+                if (numArray.length === 1) {
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+                else {
+                    numArray = [numArray.reduce(function(prev, curr) {
+                        prev = new BigNumber(prev);
+                        curr = new BigNumber(curr);
+                        return math.add(math.bignumber(prev), math.bignumber(curr));
+                    })];
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
             }
-            else {
+
+            function subtract() {
+                if ($display.children().html() !== undefined) {
+                    var bigNum = new BigNumber($display.children().html());
+                    numArray.push(bigNum.toNumber());
+                }
+                else {
+                    numArray.push(0);
+                }
+                console.log(numArray);
+                if (numArray.length === 1) {
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+                else {
+                    numArray = [numArray.reduce(function(prev, curr) {
+                        prev = new BigNumber(prev);
+                        curr = new BigNumber(curr);
+                        return math.subtract(math.bignumber(prev), math.bignumber(curr));
+                    })];
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+            }
+
+            function multiply() {
+                if ($display.children().html() !== undefined) {
+                    var bigNum = new BigNumber($display.children().html());
+                    numArray.push(bigNum.toNumber());
+                }
+                else {
+                    numArray.push(0);
+                }
+                console.log(numArray);
+                if (numArray.length === 1) {
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+                else {
+                    numArray = [numArray.reduce(function(prev, curr) {
+                        prev = new BigNumber(prev);
+                        curr = new BigNumber(curr);
+                        return math.multiply(math.bignumber(prev), math.bignumber(curr));
+
+                    })];
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+            }
+
+            function divide() {
+                if ($display.children().html() !== undefined) {
+                    var bigNum = new BigNumber($display.children().html());
+                    numArray.push(bigNum.toNumber());
+                }
+                else {
+                    numArray.push(0);
+                }
+                console.log(numArray);
+                if (numArray.length === 1) {
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+                else {
+                    numArray = [numArray.reduce(function(prev, curr) {
+                        prev = new BigNumber(prev);
+                        curr = new BigNumber(curr);
+                        return math.divide(math.bignumber(prev), math.bignumber(curr));
+                    })];
+                    text = numArray[0];
+                    console.log(numArray);
+                    displayText();
+                }
+            }
+
+            function percent() {
+                if ($display.children().html() !== undefined) {
+                    var bigNum = new BigNumber($display.children().html());
+                    numArray.push(bigNum.toNumber());
+                }
+                else {
+                    numArray.push(0);
+                }
+                console.log(numArray);
                 numArray = [numArray.reduce(function(prev, curr) {
                     prev = new BigNumber(prev);
-                    curr = new BigNumber(curr);
-                    return math.add(math.bignumber(prev), math.bignumber(curr));
+                    curr = new BigNumber(100);
+                    return math.divide(math.bignumber(prev), math.bignumber(curr));
                 })];
                 text = numArray[0];
                 console.log(numArray);
                 displayText();
             }
-        }
 
-        function subtract() {
-            if ($display.children().html() !== undefined) {
-                var bigNum = new BigNumber($display.children().html());
-                numArray.push(bigNum.toNumber());
+            //Equal calls the last operation performed
+            function equal() {
+                console.log(operation);
+                if (operation === "plus") {
+                    add();
+                }
+                else if (operation === "minus") {
+                    subtract();
+                }
+                else if (operation === "multiply") {
+                    multiply();
+                }
+                else if (operation === "divide") {
+                    divide();
+                }
+                else if (operation === "percent") {
+                    percent();
+                }
+                operation = "";
+                numArray = [];
             }
-            else {
-                numArray.push(0);
+
+
+
+            // Initialize Calculator
+            function initializeCalc() {
+                $display.html(`<p>0</p>`);
+                $history.html(``);
+                operation = undefined;
             }
-            console.log(numArray);
-            if (numArray.length === 1) {
-                text = numArray[0];
-                console.log(numArray);
-                displayText();
+
+
+
+
+            // Set Up Equal, Clear and Settings Buttons
+            $("#equal").click(function() {
+                if ($history.html().lastIndexOf('.') == $history.html().length - 1 || operation === undefined) {
+                    // Prevent Evaluation
+                }
+                else {
+                    equal();
+                    $history.empty();
+                    operation = "equal";
+                    numText = text;
+                }
+
+
+
+            });
+
+
+
+            // Clear Button will reset everything
+            $("#clear").click(initializeCalc);
+
+            function clear() {
+                text = "";
             }
-            else {
-                numArray = [numArray.reduce(function(prev, curr) {
-                    prev = new BigNumber(prev);
-                    curr = new BigNumber(curr);
-                    return math.subtract(math.bignumber(prev), math.bignumber(curr));
-                })];
-                text = numArray[0];
-                console.log(numArray);
-                displayText();
+
+            $("#settings").click(changeDisplayBackgroundColor);
+
+            function changeDisplayBackgroundColor() {
+                iterations++;
+                $("#history").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
+                $("#display").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
             }
-        }
 
-       function multiply() {
-  if ($display.children().html() !== undefined) {
-    var bigNum = new BigNumber($display.children().html());
-    numArray.push(bigNum.toNumber());
-  } else {
-    numArray.push(0);
-  }
-  console.log(numArray);
-  if (numArray.length === 1) {
-    text = numArray[0];
-    console.log(numArray);
-    displayText();
-  } else {
-    numArray = [numArray.reduce(function(prev, curr) {
-      prev = new BigNumber(prev);
-      curr = new BigNumber(curr);
-      return math.multiply(math.bignumber(prev), math.bignumber(curr));
-      
-    })];
-    text = numArray[0];
-    console.log(numArray);
-    displayText();
-  }
-}
-        
-        function divide() {
-  if ($display.children().html() !== undefined) {
-    var bigNum = new BigNumber($display.children().html());
-    numArray.push(bigNum.toNumber());
-  } else {
-    numArray.push(0);
-  }
-  console.log(numArray);
-  if (numArray.length === 1) {
-    text = numArray[0];
-    console.log(numArray);
-    displayText();
-  } else {
-    numArray = [numArray.reduce(function(prev, curr) {
-      prev = new BigNumber(prev);
-      curr = new BigNumber(curr);
-      return math.divide(math.bignumber(prev), math.bignumber(curr));
-    })];
-    text = numArray[0];
-    console.log(numArray);
-    displayText();
-  }
-}
+            // Display Functions
+            function displayText() {
+                var displayTags = `<p>${text}</p>`;
+                fontSizing();
+                $display.html(displayTags);
+            }
 
-        function percent() {
-  if ($display.children().html() !== undefined) {
-    var bigNum = new BigNumber($display.children().html());
-    numArray.push(bigNum.toNumber());
-  } else {
-    numArray.push(0);
-  }
-  console.log(numArray);
-  numArray = [numArray.reduce(function(prev, curr) {
-    prev = new BigNumber(prev);
-    curr = new BigNumber(100);
-    return math.divide(math.bignumber(prev), math.bignumber(curr));
-  })];
-  text = numArray[0];
-  console.log(numArray);
-  displayText();
-}
+            function displayHistory() {
+                var historyText = `<p>${numText}</p>`;
+                $history.html(historyText);
+            }
 
-//Equal calls the last operation performed
-function equal() {
-  console.log(operation);
-  if (operation === "plus") {
-    add();
-  } else if (operation === "minus") {
-    subtract();
-  } else if (operation === "multiply") {
-    multiply();
-  } else if (operation === "divide") {
-    divide();
-  } else if (operation === "percent") {
-    percent();
-  }
-  operation = "";
-  numArray = [];
-}
+            // Settings Functions
 
 
-
-// Initialize Calculator
-function initializeCalc() {
-$display.html(' 0');
-$history.html('');
-operation = undefined;
-}
-
-        
-       
-
-// Set Up Equal, Clear and Settings Buttons
-$("#equal").click(function() {
-    if($history.html().lastIndexOf('.') == $history.html().length - 1 || operation === undefined) {
-        // Prevent Evaluation
-    } else {
-        equal();
-        $history.empty();
-        operation = "equal";
-        numText = text;
-    }
-    
-    
-    
-});  
-
-
-
-// Clear Button will reset everything
-$("#clear").click(initializeCalc);
-
-function clear() {
-    text = "";
-}
-
-$("#settings").click(changeDisplayBackgroundColor);
-
-function changeDisplayBackgroundColor() {
-    iterations++;
-    $("#history").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
-    $("#display").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
-}
-
-// Display Functions
-function displayText() {
-    var displayTags = `<p>${text}</p>`;
-    fontSizing();
-    $display.html(displayTags);
-}
-
-function displayHistory() {
-    var historyText = `<p>${numText}</p>`;
-    $history.html(historyText);
-}
-
-// Settings Functions
-
-        
-        });         // End Document Ready
-        </script> 
+        }); // End Document Ready
+    </script>
 </head>
 
 <body>
@@ -451,7 +473,7 @@ function displayHistory() {
 
         <!-- Set Up Second Row -->
         <article class="row">
-            <button id="one" class="digit" >1</button>
+            <button id="one" class="digit">1</button>
             <button id="two" class="digit">2</button>
             <button id="three" class="digit">3</button>
             <button class="op" id="add">+</button>
