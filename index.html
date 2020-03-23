@@ -459,17 +459,13 @@ function changeDisplayBackgroundColor() {
 
 // Display Functions
 function displayText() {
-    var displayTags = "<p>";
-    displayTags += text;
-    displayTags += "</p>";
+    var displayTags = `<p>${text}</p>`;
     fontSizing();
     $display.html(displayTags);
 }
 
 function displayHistory() {
-    var historyText = "<p>";
-    historyText += numText;
-    historyText += "</p>";
+    var historyText = `<p>${numText}</p>`;
     $history.html(historyText);
 }
 
