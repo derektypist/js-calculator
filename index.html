@@ -132,11 +132,9 @@
         var numArray = [];
         var iterations = 0;
         const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
-        BigNumber.config({
-            DECIMAL_PLACES: 10,
-            ROUNDING_MODE: BigNumber.ROUND_HALF_CEIL,
-            EXPONENTIAL_AT: [-10, 10],
-            ERRORS: false,
+        math.config({
+            number: 'BigNumber',
+            precision: 64
         });
         initializeCalc();
         
@@ -159,68 +157,26 @@
 
         // Set Up Number Buttons
 
-        $(".digit:not(#zero)").click(function() {
-            
-            if (operation == "equal") {
-                text += $(".digit:not(#zero)").html();
-                numText += $(".digit:not(#zero)").html();
-                operation = "number";
-            } else if (lockNumbersAndDecimals()){
-                // Apply Lock to Numbers and Decimals
-            } else {
-            /(\s0)|x|\+|—/.test($output.text()) ? $display.html('') : $display.html();
-            text += $(".digit:not(#zero)").html();
-                numText += $(".digit:not(#zero)").html();
-                displayText();
-                displayHistory();
-                operation = "number";
-            
-            
-            
-            }
-        });
-        $("#zero").click(function() {
-            if (operation == "equal") {
-                initializeCalc();
-            } else if (/(\s0)$|-$|x|\+|—/.test($display.text()) ||
-      lockNumbersAndDecimals()) { // PREVENTS UNWANTED ZEROS
-    } else {
-                text += $("#zero").append("0");
-                numText += $("#zero").append("0");
-                displayText();
-                displayHistory();
-                operation = "number";
-            }
-                
-            });
-       
-        
-       // Set Up Decimal Point
-       
-       $("#decimal").click(function() {
-           
-           if (operation == "equal" || lockNumbersAndDecimals()) {
-               // Apply Lock
-           } else {
-            if (operation == "add" && $display.text() == "-" || operation == "subtract" && $display.text() == "-" || operation == "multiply" && $display.text() == "-"
-            || operation == "divide" && $display.text() == "-" || operation == "percent" && $display.text() == "-") {
-                text += $("#decimal").append("0.");
-                numText += $("#decimal").append("0.");
-            }
-           }
-           
-       });
+       function buttonClick(id) {
+  $("#" + id).click(function() {
+    text += $("#" + id).html();
+    numText += $("#" + id).html();
+    displayText();
+    displayHistory();
+  });
+}
 
-       // Set Up Lock Function
-       
-      function lockNumbersAndDecimals() {
-          if (operation != "equal") {
-              return $display.text().length > 18 ||
-              $history.text().length > 64 ||
-              $history.text() !== "";
-              
-          }
-      }
+buttonClick("one");
+buttonClick("two");
+buttonClick("three");
+buttonClick("four");
+buttonClick("five");
+buttonClick("six");
+buttonClick("seven");
+buttonClick("eight");
+buttonClick("nine");
+buttonClick("zero");
+buttonClick("decimal");
         
 
         // Set Up Operations Buttons
@@ -484,7 +440,7 @@ function displayHistory() {
             <p>JavaScript Calculator</p>
         </article>
         <article id="history"></article>
-        <article id="display"> 0</article>
+        <article id="display"></article>
         <!-- Set Up First Row -->
         <article class="row">
             <button id="clear">C</button>
