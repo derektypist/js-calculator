@@ -183,7 +183,43 @@
             buttonClick("eight");
             buttonClick("nine");
             buttonClick("zero");
-            buttonClick("decimal");
+            
+            $('#zero').click(function() {
+            if (operation == "evaluated") {
+                initializeCalc();
+            }
+            else if (/(\s0)$|-$|x|\+|—|\//.test($display.text()) || lockNumbersAndDecimals()) { // Prevents Unwanted Zeros 
+            } else {
+                text.append(0);
+                numText.append(0);
+            }
+
+            displayText();
+            displayHistory();
+    
+
+    
+
+    
+
+  });
+            
+            $("#decimal").click(function() {
+                var historyStr = $history.text();
+                if (operation == "evaluated" || lockNumbersAndDecimals()) { // Lock
+                }
+                
+            });
+            
+            // Lock Function
+            function lockNumbersAndDecimals() {
+                if (operation != "evaluated") {
+                    return $display.text.length > 20 ||
+                    $history.text.length > 64 ||
+                    $history.text !== '' &&
+                    $history.text.lastIndexOf('.') == $history.text.length - 1;
+                }
+            }
 
 
             // Set Up Operations Buttons
@@ -381,7 +417,7 @@
                 else if (operation === "percent") {
                     percent();
                 }
-                operation = "";
+                operation = "evaluated";
                 numArray = [];
             }
 
@@ -402,18 +438,11 @@
 
             // Set Up Equal, Clear and Settings Buttons
             $("#equal").click(function() {
-                if ($history.html().lastIndexOf('.') == $history.html().length - 1 || operation === undefined) {
-                    // Prevent Evaluation
-                }
-                else {
+               
                     equal();
                     $history.empty();
-                    operation = "equal";
                     numText = text;
-                }
-
-
-
+             
             });
 
 
@@ -424,6 +453,8 @@
             function clear() {
                 text = "";
             }
+            
+            // Settings Functions
 
             $("#settings").click(changeDisplayBackgroundColor);
 
@@ -445,7 +476,7 @@
                 $history.html(historyText);
             }
 
-            // Settings Functions
+            
 
 
         }); // End Document Ready
@@ -471,33 +502,33 @@
 
         <!-- Set Up Second Row -->
         <article class="row">
-            <button id="one" class="digit">1</button>
-            <button id="two" class="digit">2</button>
-            <button id="three" class="digit">3</button>
-            <button class="op" id="add">+</button>
+            <button id="one">1</button>
+            <button id="two">2</button>
+            <button id="three">3</button>
+            <button id="add">+</button>
         </article>
 
         <!-- Set Up Third Row -->
         <article class="row">
-            <button id="four" class="digit">4</button>
-            <button id="five" class="digit">5</button>
-            <button id="six" class="digit">6</button>
-            <button class="op" id="subtract">-</button>
+            <button id="four">4</button>
+            <button id="five">5</button>
+            <button id="six">6</button>
+            <button id="subtract">-</button>
         </article>
 
         <!-- Set Up Fourth Row -->
         <article class="row">
-            <button id="seven" class="digit">7</button>
-            <button id="eight" class="digit">8</button>
-            <button id="nine" class="digit">9</button>
-            <button class="op" id="multiply">&times;</button>
+            <button id="seven">7</button>
+            <button id="eight">8</button>
+            <button id="nine">9</button>
+            <button id="multiply">&times;</button>
         </article>
 
         <!-- Set Up Fifth Row -->
         <article class="row">
-            <button id="zero" class="digit">0</button>
+            <button id="zero">0</button>
             <button id="decimal">.</button>
-            <button class="op" id="equal">=</button>
+            <button id="equal">=</button>
             <button id="settings" title="Change display background color">S</button>
         </article>
     </section>
