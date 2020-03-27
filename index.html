@@ -121,15 +121,7 @@
             // Define Global Variables
 
             
-            const config = {
-                epsilon: 1e-12,
-                matrix: 'Matrix',
-                number: 'BigNumber',
-                precision: 64,
-                predictable: false,
-                randomSeed: null
-            };
-            
+           
             
 
 
@@ -144,7 +136,10 @@
             var numArray = [];
             var iterations = 0;
             const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
-
+            math.config({
+                number: 'BigNumber',
+                precision: 64
+            });
 
 
 
@@ -396,7 +391,10 @@
             function initializeCalc() {
                 $display.html(`<p>0</p>`);
                 $history.html(``);
-                operation = undefined;
+                numArray = [];
+                text = "";
+                numText = "";
+                operation = "";
             }
 
 
