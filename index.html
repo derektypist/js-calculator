@@ -384,7 +384,7 @@
 
             function percent() {
                 if ($display.children().html() !== undefined) {
-                    var bigNum = new BigNumber($display.children().html());
+                    var bigNum = bigmath.bignumber($display.children().html());
                     numArray.push(bigNum.toNumber());
                 }
                 else {
@@ -392,9 +392,9 @@
                 }
                 console.log(numArray);
                 numArray = [numArray.reduce(function(prev, curr) {
-                    prev = new BigNumber(prev);
-                    curr = new BigNumber(100);
-                    return math.divide(math.bignumber(prev), math.bignumber(curr));
+                    prev = bigmath.bignumber(prev).toNumber();
+                    curr = bigmath.bignumber(100).toNumber();
+                    return bigmath.divide(prev, curr);
                 })];
                 text = numArray[0];
                 console.log(numArray);
