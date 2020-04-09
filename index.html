@@ -358,7 +358,7 @@
 
             function divide() {
                 if ($display.children().html() !== undefined) {
-                    var bigNum = new BigNumber($display.children().html());
+                    var bigNum = bigmath.bignumber($display.children().html());
                     numArray.push(bigNum.toNumber());
                 }
                 else {
@@ -372,9 +372,9 @@
                 }
                 else {
                     numArray = [numArray.reduce(function(prev, curr) {
-                        prev = new BigNumber(prev);
-                        curr = new BigNumber(curr);
-                        return math.divide(math.bignumber(prev), math.bignumber(curr));
+                        prev = bigmath.bignumber(prev).toNumber();
+                        curr = bigmath.bignumber(curr).toNumber();
+                        return bigmath.divide(prev, curr);
                     })];
                     text = numArray[0];
                     console.log(numArray);
@@ -499,7 +499,7 @@
             <button id="clear">C</button>
             <button id="posNeg">&plusmn;</button>
             <button id="percent">%</button>
-            <button id="divide" class="op">&divide;</button>
+            <button id="divide">&divide;</button>
         </article>
 
         <!-- Set Up Second Row -->
