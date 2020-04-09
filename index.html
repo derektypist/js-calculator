@@ -278,7 +278,7 @@
 
             function add() {
                 if ($display.children().html() !== undefined) {
-                    var bigNum = new BigNumber($display.children().html());
+                    var bigNum = bigmath.bignumber($display.children().html());
                     numArray.push(bigNum.toNumber());
                 }
                 else {
