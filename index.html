@@ -120,15 +120,9 @@
         $(document).ready(function() {
             // Define Global Variables
 
-            
-           
-            
-
-
-
-
             var $display = $("#display");
             var $history = $("#history");
+            var $display_history = $("#display, #history");
             var $clear = $("#clear");
             var text = "";
             var numText = "";
@@ -170,6 +164,7 @@
                     numText += $("#" + id).html();
                     displayText();
                     displayHistory();
+                    operation = "number";
                 });
             }
 
@@ -182,43 +177,39 @@
             buttonClick("seven");
             buttonClick("eight");
             buttonClick("nine");
-            buttonClick("zero");
-            
+
+
+
             $('#zero').click(function() {
-            if (operation == "evaluated") {
-                initializeCalc();
-            }
-            else if (/(\s0)$|-$|x|\+|—|\//.test($display.text()) || lockNumbersAndDecimals()) { // Prevents Unwanted Zeros 
-            } else {
-                text.append(0);
-                numText.append(0);
-                displayText();
-                displayHistory();
-            }
+                if (operation == "evaluated") {
+                    initializeCalc();
+                }
+                else if (/(\s0)$|-$|x|\+|—|\//.test($display.text()) || lockNumbersAndDecimals()) { // Prevents Unwanted Zeros 
+                }
+                else {
+                    $display_history.append("0");
+                    displayText();
+                    displayHistory();
+                    operation = "number";
+                }
 
-            
-    
+            });
 
-    
-
-    
-
-  });
-            
             $("#decimal").click(function() {
                 var historyStr = $history.text();
-                if (operation == "evaluated" || lockNumbersAndDecimals()) { // Lock
+                if (operation == "evaluated" || lockNumbersAndDecimals()) { // Apply Lock
                 }
-                
+
+
             });
-            
+
             // Lock Function
             function lockNumbersAndDecimals() {
                 if (operation != "evaluated") {
                     return $display.text.length > 20 ||
-                    $history.text.length > 64 ||
-                    $history.text !== '' &&
-                    $history.text.lastIndexOf('.') == $history.text.length - 1;
+                        $history.text.length > 64 ||
+                        $history.text !== '' &&
+                        $history.text.lastIndexOf('.') == $history.text.length - 1;
                 }
             }
 
@@ -228,7 +219,12 @@
             $("#posNeg").click(function() {
                 var bigNum = bigmath.bignumber($display.children().html());
                 text = bigNum.toNumber() * -1;
-                if (text < 0) operation = "negative";
+                if (text < 0) {
+                    operation = "negative";
+                }
+                else {
+                    operation = "positive";
+                }
                 displayText();
                 displayHistory();
                 clear();
@@ -440,11 +436,11 @@
 
             // Set Up Equal, Clear and Settings Buttons
             $("#equal").click(function() {
-               
-                    equal();
-                    $history.empty();
-                    numText = text;
-             
+
+                equal();
+                $history.empty();
+                numText = text;
+
             });
 
 
@@ -455,7 +451,22 @@
             function clear() {
                 text = "";
             }
-            
+
+            // Find Last Index of Operator
+            function lastIndexOfOperator(str) {
+                return [str.lastIndexOf('‑'), str.lastIndexOf('+'),
+                    str.lastIndexOf('/'), str.lastIndexOf('⋅')
+                ].sort(function(a, b) {
+
+                    return a < b;
+
+                })[0];
+
+
+            }
+
+
+
             // Settings Functions
 
             $("#settings").click(changeDisplayBackgroundColor);
@@ -478,7 +489,7 @@
                 $history.html(historyText);
             }
 
-            
+
 
 
         }); // End Document Ready
