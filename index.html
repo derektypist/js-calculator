@@ -228,6 +228,7 @@
             $("#posNeg").click(function() {
                 var bigNum = bigmath.bignumber($display.children().html());
                 text = bigNum.toNumber() * -1;
+                if (text < 0) operation = "negative";
                 displayText();
                 displayHistory();
                 clear();
