@@ -236,7 +236,7 @@
 
             $("#add").click(function() {
                 equal(); //call equal to perform current operation before switching to new operation
-                operation = "add";
+                operation = "plus";
                 add();
                 numText += " " + $("#add").html() + " ";
                 clear();
@@ -244,7 +244,7 @@
 
             $("#subtract").click(function() {
                 equal();
-                operation = "subtract";
+                operation = "minus";
                 subtract();
                 numText += " " + $("#subtract").html() + " ";
                 clear();
