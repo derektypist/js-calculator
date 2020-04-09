@@ -293,9 +293,9 @@
                 }
                 else {
                     numArray = [numArray.reduce(function(prev, curr) {
-                        prev = new BigNumber(prev);
-                        curr = new BigNumber(curr);
-                        return math.add(math.bignumber(prev), math.bignumber(curr));
+                        prev = bigmath.bignumber(prev).toNumber();
+                        curr = bigmath.bignumber(curr).toNumber();
+                        return bigmath.add(prev, curr);
                     })];
                     text = numArray[0];
                     console.log(numArray);
@@ -305,7 +305,7 @@
 
             function subtract() {
                 if ($display.children().html() !== undefined) {
-                    var bigNum = new BigNumber($display.children().html());
+                    var bigNum = bigmath.bignumber($display.children().html());
                     numArray.push(bigNum.toNumber());
                 }
                 else {
@@ -319,9 +319,9 @@
                 }
                 else {
                     numArray = [numArray.reduce(function(prev, curr) {
-                        prev = new BigNumber(prev);
-                        curr = new BigNumber(curr);
-                        return math.subtract(math.bignumber(prev), math.bignumber(curr));
+                        prev = bigmath.bignumber(prev).toNumber();
+                        curr = bigmath.bignumber(curr).toNumber();
+                        return bigmath.subtract(prev, curr);
                     })];
                     text = numArray[0];
                     console.log(numArray);
