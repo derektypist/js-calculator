@@ -331,7 +331,7 @@
 
             function multiply() {
                 if ($display.children().html() !== undefined) {
-                    var bigNum = new BigNumber($display.children().html());
+                    var bigNum = bigmath.bignumber($display.children().html());
                     numArray.push(bigNum.toNumber());
                 }
                 else {
@@ -345,9 +345,9 @@
                 }
                 else {
                     numArray = [numArray.reduce(function(prev, curr) {
-                        prev = new BigNumber(prev);
-                        curr = new BigNumber(curr);
-                        return math.multiply(math.bignumber(prev), math.bignumber(curr));
+                        prev = bigmath.bignumber(prev).toNumber();
+                        curr = bigmath.bignumber(curr).toNumber();
+                        return bigmath.multiply(prev, curr);
 
                     })];
                     text = numArray[0];
