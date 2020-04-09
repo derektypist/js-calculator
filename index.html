@@ -192,10 +192,11 @@
             } else {
                 text.append(0);
                 numText.append(0);
+                displayText();
+                displayHistory();
             }
 
-            displayText();
-            displayHistory();
+            
     
 
     
@@ -225,7 +226,7 @@
             // Set Up Operations Buttons
 
             $("#posNeg").click(function() {
-                var bigNum = new BigNumber($display.children().html());
+                var bigNum = bigmath.bignumber($display.children().html());
                 text = bigNum.toNumber() * -1;
                 displayText();
                 displayHistory();
