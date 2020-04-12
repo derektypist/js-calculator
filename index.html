@@ -122,6 +122,7 @@
 
             var $display = $("#display");
             var $history = $("#history");
+            var $display_history = $("#display, #history");
             var $clear = $("#clear");
             var text = "";
             var numText = "";
@@ -177,55 +178,40 @@
             buttonClick("seven");
             buttonClick("eight");
             buttonClick("nine");
-            buttonClick("zero");
-            buttonClick("decimal");
-
+            
 
 
             $("#zero").click(function() {
-                if (operation == "evaluated") {
+                if (operationType == "evaluated") {
                     initializeCalc();
                 }
-                else if (/(\s0)$|-$|x|\+|—|\//.test(text.text()) || lockNumbersAndDecimals()) { // Prevents Unwanted Zeros 
+                else if (/(\s0)$|-$|x|\+|—|\//.test($display.text()) || lockNumbersAndDecimals()) { // Prevents Unwanted Zeros 
                 }
                 else {
-                    text += $("#zero").html();
-                    numText += $("#zero").html();
-                    displayText();
-                    displayHistory();
+                    $display_history.append("0");
                     operationType = "number";
                 }
 
             });
 
             $("#decimal").click(function() {
+                var historyStr = $history.text();
                 if (operationType == "evaluated" || lockNumbersAndDecimals()) { // Apply Lock
                 }
                 else {
-                    if (operationType == "operator" && $display.text() == "-") {
-                        text += $("#decimal").html("0.");
-                        numText += $("#decimal").html("0.");
-                        displayText();
-                        displayHistory();
+                    if (operationType == "negative" && $display.text() == "-" || operationType == "operator" && $display.text() == "-") {
+                        $display_history.append("0.");
                     }
-                    else if (operationType == "negative" && /(\d+)$/.test(text.text())) {
-                        text += $("#decimal").html();
-                        numText += $("#decimal").html();
-                        displayText();
-                        displayHistory();
+                    else if (operationType == "negative" && /(\d+)$/.test(historyStr)) {
+                        $display_history.append(".");
                     }
                     else if (operationType == "operator" || operationType == "negative" || $display.html() == ' 0') {
-                        text += $("#decimal").html("0.");
-                        numText += $("#decimal").html("0.");
-                        displayText();
-                        displayHistory();
-                        
+                        $history.append("0.");
+                        $display.html("0.");
+              
                     }
                     else {
-                        text += $("#decimal").html();
-                        numText += $("#decimal").html();
-                        displayText();
-                        displayHistory();
+                        $display_history.append(".");
                     }
                     operationType = "point";
                     
