@@ -122,11 +122,11 @@
 
             var $display = $("#display");
             var $history = $("#history");
-            var $display_history = $("#display, #history");
             var $clear = $("#clear");
             var text = "";
             var numText = "";
             var operation = "";
+            var operationType = "";
             var numArray = [];
             var iterations = 0;
             const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
@@ -164,6 +164,7 @@
                     numText += $("#" + id).html();
                     displayText();
                     displayHistory();
+                    operationType = "number";
                 });
             }
 
@@ -177,7 +178,7 @@
             buttonClick("eight");
             buttonClick("nine");
             buttonClick("zero");
-            buttonClick("#decimal");
+            buttonClick("decimal");
 
 
 
@@ -192,27 +193,28 @@
                     numText += $("#zero").html();
                     displayText();
                     displayHistory();
+                    operationType = "number";
                 }
 
             });
 
             $("#decimal").click(function() {
-                if (operation == "evaluated" || lockNumbersAndDecimals()) { // Apply Lock
+                if (operationType == "evaluated" || lockNumbersAndDecimals()) { // Apply Lock
                 }
                 else {
-                    if (operation == "negative" || (operation == "minus" || operation == "plus" || operation == "multiply" || operation == "divide") && $display.text() == "-") {
+                    if (operationType == "operator" && $display.text() == "-") {
                         text += $("#decimal").html("0.");
                         numText += $("#decimal").html("0.");
                         displayText();
                         displayHistory();
                     }
-                    else if (operation == "negative" && /(\d+)$/.test(text.text())) {
+                    else if (operationType == "negative" && /(\d+)$/.test(text.text())) {
                         text += $("#decimal").html();
                         numText += $("#decimal").html();
                         displayText();
                         displayHistory();
                     }
-                    else if ((operation == "plus" || operation == "minus" || operation == "multiply" || operation == "divide") || operation == "negative" || $display.html() == ' 0') {
+                    else if (operationType == "operator" || operationType == "negative" || $display.html() == ' 0') {
                         text += $("#decimal").html("0.");
                         numText += $("#decimal").html("0.");
                         displayText();
@@ -225,7 +227,7 @@
                         displayText();
                         displayHistory();
                     }
-
+                    operationType = "point";
                     
                 }
             });
@@ -236,7 +238,7 @@
 
             // Lock Function
             function lockNumbersAndDecimals() {
-                if (operation != "evaluated") {
+                if (operationType != "evaluated") {
                     return $display.text.length > 20 ||
                         $history.text.length > 64 ||
                         $history.text !== '' &&
@@ -251,10 +253,10 @@
                 var bigNum = bigmath.bignumber($display.children().html());
                 text = bigNum.toNumber() * -1;
                 if (text < 0) {
-                    operation = "negative";
+                    operationType = "negative";
                 }
                 else {
-                    operation = "positive";
+                    operationType = "positive";
                 }
                 displayText();
                 displayHistory();
@@ -264,6 +266,7 @@
             $("#add").click(function() {
                 equal(); //call equal to perform current operation before switching to new operation
                 operation = "plus";
+                operationType = "operator";
                 add();
                 numText += " " + $("#add").html() + " ";
                 clear();
@@ -272,6 +275,7 @@
             $("#subtract").click(function() {
                 equal();
                 operation = "minus";
+                operationType = "operator";
                 subtract();
                 numText += " " + $("#subtract").html() + " ";
                 clear();
@@ -280,6 +284,7 @@
             $("#divide").click(function() {
                 equal();
                 operation = "divide";
+                operationType = "operator";
                 divide();
                 numText += " " + $("#divide").html() + " ";
                 clear();
@@ -288,6 +293,7 @@
             $("#multiply").click(function() {
                 equal();
                 operation = "multiply";
+                operationType = "operator";
                 multiply();
                 numText += " " + $("#multiply").html() + " ";
                 clear();
@@ -295,6 +301,7 @@
 
             $("#percent").click(function() {
                 operation = "percent";
+                operationType = "operator";
                 percent();
                 equal();
                 numText += " " + $("#percent").html() + " ";
@@ -446,7 +453,8 @@
                 else if (operation === "percent") {
                     percent();
                 }
-                operation = "evaluated";
+                operation = "";
+                operationType = "evaluated";
                 numArray = [];
             }
 
@@ -460,6 +468,7 @@
                 text = "";
                 numText = "";
                 operation = "";
+                operationType = undefined;
             }
 
 
