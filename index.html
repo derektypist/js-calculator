@@ -163,7 +163,7 @@
                 
                 if (operationType == "evaluated") {
                     $display_history.html($(this).text());
-                    operationType = number;
+                    operationType = "number";
                 }
                 else if (lockNumbersAndDecimals()) { // Apply Lock
                 } 
@@ -171,38 +171,13 @@
                 else if (operationType == "negative" || operationType == "point"){
                     $display_history.append($(this).text());
                     operationType == "point" ? operationType = "number" : operationType = "negative";
+                } else {
+                    /(\s0)|x|\+|—|\//.test($display.text()) ? $display.html('') : $display.html();
+                    $display_history.append($(this).text());
+                    operationType = "number";
                 }
 
-
-
             });
-
-
-
-
-
-
-
-            function buttonClick(id) {
-                $("#" + id).click(function() {
-                    text += $("#" + id).html();
-                    numText += $("#" + id).html();
-                    displayText();
-                    displayHistory();
-                    operationType = "number";
-                });
-            }
-
-            buttonClick("one");
-            buttonClick("two");
-            buttonClick("three");
-            buttonClick("four");
-            buttonClick("five");
-            buttonClick("six");
-            buttonClick("seven");
-            buttonClick("eight");
-            buttonClick("nine");
-
 
 
             $("#zero").click(function() {
