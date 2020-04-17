@@ -6,11 +6,18 @@ https://codepen.io/freeCodeCamp/full/wgGVVX
 ## UX
 
 The calculator has plus, minus, multiply, divide and percent buttons.  It also has a change of sign from plus to minus and vice versa.
-There is a setting button (S) to change the background color of the display.
+There is a setting button (S) to change the background color of the display.  When the user hovers over the S
+button, a screentip is displayed.
 
 There are settings for background colors in the display.
 
 Display Background Colors - seagreen, blue, purple, orangered, olive, brown and deeppink.
+
+Operation Types are undefined, number, positive, negative, point, operator and evaluated.
+
+The font width of the display is resized according to the number of digits. 
+
+When more than 20 digits have been entered (not evaluated), the message 'Digit Limit Met' is displayed.
 
 ### User Stories
 
@@ -61,13 +68,21 @@ Formula/Expression Logic: 32.5
 
 ## Features
 
-This calculator has 19 buttons.  10 number keys, 6 operations (add, subtract, multiply, divide, percent
-and change sign - positive to negative and negative to positive), equals key, decimal key and clear key.
+This calculator has 20 buttons.  10 number keys, 6 operations (add, subtract, multiply, divide, percent
+and change sign - positive to negative and negative to positive), equals key, decimal key, settings key and clear key.
 
+## Testing
+
+Ensure that the user stories have been met. 
 
 ## Technologies
 
-This project uses HTML5, CSS3, Bootstrap 4.4.1, jQuery 3.4.1 and Bignumbers (available at https://www.jsdelivr.com/package/npm/mathjs).
+This project uses HTML5, CSS3, Bootstrap 4.4.1, jQuery 3.4.1 and MathJS 6.6.1 (available at https://www.jsdelivr.com/package/npm/mathjs).
+
+## Deployment
+
+This project is deployed on [GitHub Pages](https://derektypist.github.io/js-calculator) at the master branch.
+
 
 ## Credits
 
@@ -78,11 +93,11 @@ Written by me.
 ### Acknowledgements
 
 [Kristin Anthony](https://www.knanthony.com/blog/free-code-camp-calculator) - including the [code pen](https://codepen.io/anthkris/pen/vLdgev).
-Accessed on 18 February 2020.
+Accessed between 18 February 2020 and 17 April 2020.
 
-[Peter Weinburg](https://github.com/no-stack-dub-sack/FCC-Calculator) - for the FCC Calculator.  Accessed on 26 February 2020.
+[Peter Weinburg](https://github.com/no-stack-dub-sack/FCC-Calculator) - for the FCC Calculator.  Accessed between 26 February 2020 and 17 April 2020.
 
-The [MathJS Library](https://mathjs.org/index.html), accessed on 20 Feburary 2020.
+The [MathJS Library](https://mathjs.org/index.html), accessed between 20 Feburary 2020 and 17 April 2020.
 
 
 
