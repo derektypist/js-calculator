@@ -123,12 +123,10 @@
             var $display = $("#display");
             var $history = $("#history");
             var $display_history = $("#display, #history");
-            var $clear = $("#clear");
-            var text = "";
-            var numText = "";
-            var operation = "";
             var operationType = "";
-            var numArray = [];
+            var answer = 0;
+            var hasDecimalPoint = false;
+            var $endsWithOperator = new RegExp(/(\-)$|(\+)$|(\%)$|(\/)$|(\x)$/);
             var iterations = 0;
             const DISPLAY_BACKGROUND_COLORS = ["seagreen", "blue", "purple", "orangered", "olive", "brown", "deeppink"];
             const bigmath = math.create({
