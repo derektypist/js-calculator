@@ -150,7 +150,7 @@
             // Set Up Number Buttons
 
             $(".digit:not(#zero)").click(function() {
-                
+
                 if (operationType == "evaluated") {
                     $display_history.html($(this).text());
                     fontSizing();
@@ -158,13 +158,14 @@
                     operationType = "number";
                 }
                 else if (lockNumbersAndDecimals()) { // Apply Lock
-                } 
-                
-                else if (operationType == "negative" || operationType == "point"){
+                }
+
+                else if (operationType == "negative" || operationType == "point") {
                     $display_history.append($(this).text());
                     fontSizing();
                     operationType == "point" ? operationType = "number" : operationType = "negative";
-                } else {
+                }
+                else {
                     /(\s0)|x|\+|—|\//.test($display.text()) ? $display.html('') : $display.html();
                     $display_history.append($(this).text());
                     fontSizing();
@@ -229,215 +230,87 @@
             }
 
 
-            // Set Up Operations Buttons
+            // Set Up Switch Sign Button
 
             $("#posNeg").click(function() {
-                var bigNum = bigmath.bignumber($display.children().html());
-                text = bigNum.toNumber() * -1;
-                if (text < 0) {
+                var bigNum = bigmath.bignumber($display.html());
+                answer = bigNum.toNumber() * -1;
+                if (answer < 0) {
                     operationType = "negative";
                 }
                 else {
                     operationType = "positive";
                 }
-                displayText();
-                displayHistory();
-                clear();
+                $display_history.html(answer);
+                fontSizing();
             });
 
-            $("#add").click(function() {
-                equal(); //call equal to perform current operation before switching to new operation
-                operation = "plus";
+            // Set Up Operator Buttons and Functions
+
+            $(".operator").click(function() {
+                if (operationType === undefined || preventOperator($history.text(), $display.text())) {
+                    // Apply Lock
+                }
+                else if ($endsWithOperator.test($history.text())) {
+                    $history.html($history.text().replace($endsWithOperator, switchOperator($(this))));
+                    $display.html($(this).text());
+                }
+                else {
+                    closeParentheses($history.text());
+                    if (answer !== undefined) operateOnAnswerAndWrapNegatives();
+                    if ($(this).attr('id') == 'add') add();
+                    if ($(this).attr('id') == 'subtract') subtract();
+                    if ($(this).attr('id') == 'multiply') multiply();
+                    if ($(this).attr('id') == 'divide') divide();
+                    if ($(this).attr('id') == 'percent') percent();
+
+                }
+                hasDecimalPoint = false;
                 operationType = "operator";
-                add();
-                numText += " " + $("#add").html() + " ";
-                clear();
+
             });
 
-            $("#subtract").click(function() {
-                equal();
-                operation = "minus";
-                operationType = "operator";
-                subtract();
-                numText += " " + $("#subtract").html() + " ";
-                clear();
-            });
+            function preventOperator(str1, str2) {
+                return str1 === '' ||
+                    str1.lastIndexOf('.') == str1.length - 1 ||
+                    str1.lastIndexOf('(-') == str1.length - 1 ||
+                    str2.indexOf('Met') != -1;
+            }
 
-            $("#divide").click(function() {
-                equal();
-                operation = "divide";
-                operationType = "operator";
-                divide();
-                numText += " " + $("#divide").html() + " ";
-                clear();
-            });
+            function operateOnAnswerAndWrapNegatives() {
+                if ($display.text().indexOf('-') != -1) $history.html('(' + $display.text() + ')');
+                else $history.html($display.text());
+                answer = undefined;
+            }
 
-            $("#multiply").click(function() {
-                equal();
-                operation = "multiply";
-                operationType = "operator";
-                multiply();
-                numText += " " + $("#multiply").html() + " ";
-                clear();
-            });
-
-            $("#percent").click(function() {
-                operation = "percent";
-                operationType = "operator";
-                percent();
-                equal();
-                numText += " " + $("#percent").html() + " ";
-                clear();
-            });
-
-            // Set Up Operations Functions
+            function switchOperator(e) {
+                if (e.attr('id') == 'multiply') return 'x';
+                return e.text();
+            }
 
             function add() {
-                if ($display.children().html() !== undefined) {
-                    var bigNum = bigmath.bignumber($display.children().html());
-                    numArray.push(bigNum.toNumber());
-                }
-                else {
-                    numArray.push(0);
-                }
-                console.log(numArray);
-                //if numArray only has one number, don't perform any operations
-                if (numArray.length === 1) {
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
-                else {
-                    numArray = [numArray.reduce(function(prev, curr) {
-                        prev = bigmath.bignumber(prev).toNumber();
-                        curr = bigmath.bignumber(curr).toNumber();
-                        return bigmath.add(prev, curr);
-                    })];
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
+                $history.append("+");
+                $display.html("+");
             }
 
             function subtract() {
-                if ($display.children().html() !== undefined) {
-                    var bigNum = bigmath.bignumber($display.children().html());
-                    numArray.push(bigNum.toNumber());
-                }
-                else {
-                    numArray.push(0);
-                }
-                console.log(numArray);
-                if (numArray.length === 1) {
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
-                else {
-                    numArray = [numArray.reduce(function(prev, curr) {
-                        prev = bigmath.bignumber(prev).toNumber();
-                        curr = bigmath.bignumber(curr).toNumber();
-                        return bigmath.subtract(prev, curr);
-                    })];
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
+                $history.append("-");
+                $display.html("-");
             }
 
             function multiply() {
-                if ($display.children().html() !== undefined) {
-                    var bigNum = bigmath.bignumber($display.children().html());
-                    numArray.push(bigNum.toNumber());
-                }
-                else {
-                    numArray.push(0);
-                }
-                console.log(numArray);
-                if (numArray.length === 1) {
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
-                else {
-                    numArray = [numArray.reduce(function(prev, curr) {
-                        prev = bigmath.bignumber(prev).toNumber();
-                        curr = bigmath.bignumber(curr).toNumber();
-                        return bigmath.multiply(prev, curr);
-
-                    })];
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
+                $history.append("x");
+                $display.html("x");
             }
 
             function divide() {
-                if ($display.children().html() !== undefined) {
-                    var bigNum = bigmath.bignumber($display.children().html());
-                    numArray.push(bigNum.toNumber());
-                }
-                else {
-                    numArray.push(0);
-                }
-                console.log(numArray);
-                if (numArray.length === 1) {
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
-                else {
-                    numArray = [numArray.reduce(function(prev, curr) {
-                        prev = bigmath.bignumber(prev).toNumber();
-                        curr = bigmath.bignumber(curr).toNumber();
-                        return bigmath.divide(prev, curr);
-                    })];
-                    text = numArray[0];
-                    console.log(numArray);
-                    displayText();
-                }
+                $history.append("/");
+                $display.html("/");
             }
 
             function percent() {
-                if ($display.children().html() !== undefined) {
-                    var bigNum = bigmath.bignumber($display.children().html());
-                    numArray.push(bigNum.toNumber());
-                }
-                else {
-                    numArray.push(0);
-                }
-                console.log(numArray);
-                numArray = [numArray.reduce(function(prev, curr) {
-                    prev = bigmath.bignumber(prev).toNumber();
-                    curr = bigmath.bignumber(100).toNumber();
-                    return bigmath.divide(prev, curr);
-                })];
-                text = numArray[0];
-                console.log(numArray);
-                displayText();
-            }
-
-            //Equal calls the last operation performed
-            function equal() {
-                console.log(operation);
-                if (operation === "plus") {
-                    add();
-                }
-                else if (operation === "minus") {
-                    subtract();
-                }
-                else if (operation === "multiply") {
-                    multiply();
-                }
-                else if (operation === "divide") {
-                    divide();
-                }
-                else if (operation === "percent") {
-                    percent();
-                }
-                operation = "";
-                operationType = "evaluated";
-                numArray = [];
+                $history.append("%");
+                $display.html("%");
             }
 
 
@@ -446,10 +319,9 @@
             function initializeCalc() {
                 $display.html(' 0');
                 $history.html('');
-                numArray = [];
-                text = "";
-                numText = "";
-                operation = "";
+                fontSizing();
+                hasDecimalPoint = false;
+                answer = undefined;
                 operationType = undefined;
             }
 
@@ -470,10 +342,6 @@
             // Clear Button will reset everything
             $("#clear").click(initializeCalc);
 
-            function clear() {
-                text = "";
-            }
-
 
 
             // Settings Functions
@@ -484,31 +352,6 @@
                 iterations++;
                 $("#history").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
                 $("#display").css("background-color", DISPLAY_BACKGROUND_COLORS[iterations % 7]);
-            }
-
-            // Display Functions
-            function displayText() {
-                var displayTags = `<p>${text}</p>`;
-                fontSizing();
-                $display.html(displayTags);
-            }
-
-            function displayHistory() {
-                var historyText = `<p>${numText}</p>`;
-                $history.html(historyText);
-            }
-
-            // Find Last Index of Operator
-            function lastIndexOfOperator(str) {
-                return [str.lastIndexOf('‑'), str.lastIndexOf('+'),
-                    str.lastIndexOf('/'), str.lastIndexOf('*')
-                ].sort(function(a, b) {
-
-                    return a < b;
-
-                })[0];
-
-
             }
 
 
@@ -529,8 +372,8 @@
         <article class="row">
             <button id="clear">C</button>
             <button id="posNeg">&plusmn;</button>
-            <button id="percent">%</button>
-            <button id="divide">&divide;</button>
+            <button class="operator" id="percent">%</button>
+            <button class="operator" id="divide">&divide;</button>
         </article>
 
         <!-- Set Up Second Row -->
@@ -538,7 +381,7 @@
             <button class="digit" id="one">1</button>
             <button class="digit" id="two">2</button>
             <button class="digit" id="three">3</button>
-            <button id="add">+</button>
+            <button class="operator" id="add">+</button>
         </article>
 
         <!-- Set Up Third Row -->
@@ -546,7 +389,7 @@
             <button class="digit" id="four">4</button>
             <button class="digit" id="five">5</button>
             <button class="digit" id="six">6</button>
-            <button id="subtract">-</button>
+            <button class="operator" id="subtract">-</button>
         </article>
 
         <!-- Set Up Fourth Row -->
@@ -554,7 +397,7 @@
             <button class="digit" id="seven">7</button>
             <button class="digit" id="eight">8</button>
             <button class="digit" id="nine">9</button>
-            <button id="multiply">&times;</button>
+            <button class="operator" id="multiply">&times;</button>
         </article>
 
         <!-- Set Up Fifth Row -->
