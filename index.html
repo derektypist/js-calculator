@@ -328,23 +328,33 @@
 
 
 
-            // Set Up Equal, Clear and Settings Buttons
+            // Set Up Equal Button
             $("#equal").click(function() {
+                if ($history.html().lastIndexOf(".") == $history.html().length - 1 ||
+                    operationType === undefined) { // Prevent Evaluate
+                }
+                else {
+                    closeParentheses($history.html());
+                    // Replace % with Divide by 100 to Operate as Percentage
+                    var expression = $history.html().replace(/x/g, "*").replace(/%/g, "/100");
+                    answer = eval(expression);
+                    $history.append("=" + answer);
+                    $display.html(answer);
+                    fontSizing();
+                    operationType = "evaluated";
+                }
 
-                equal();
-                $history.empty();
-                numText = text;
 
             });
 
 
 
-            // Clear Button will reset everything
+            // Set Up Clear Button
             $("#clear").click(initializeCalc);
 
 
 
-            // Settings Functions
+            // Settings Button and Functions
 
             $("#settings").click(changeDisplayBackgroundColor);
 
