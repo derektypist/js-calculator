@@ -352,6 +352,26 @@
             // Set Up Clear Button
             $("#clear").click(initializeCalc);
 
+            // Set Up Close Parentheses
+            function closeParentheses(str) {
+                if (str.lastIndexOf('(') > str.lastIndexOf(')')) {
+                    $history.append(')');
+                }
+            }
+
+            // Apply Max Digit Error
+            $(".digit, #decimal").click(function() {
+
+                var displayHistory = $display.text();
+                if ($display.text().length > 20) {
+                    $display.html('Digit Limit Met');
+                    setTimeout(function() {
+                        $display.html(displayHistory);
+                    }, 1100);
+                }
+
+            });
+
 
 
             // Settings Button and Functions
